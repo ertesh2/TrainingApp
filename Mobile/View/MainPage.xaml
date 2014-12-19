@@ -1,0 +1,62 @@
+﻿<Page
+    x:Class="TrainingApp.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TrainingApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <Style x:Name="MyTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20" />
+        </Style>
+        <x:Boolean x:Key="True">True</x:Boolean>
+        <x:Boolean x:Key="False">False</x:Boolean>
+        <local:KeyValueConverter x:Key="StartStopConverter">
+            <local:KeyValuePair Key="{StaticResource False}" Value="Start"/>
+            <local:KeyValuePair Key="{StaticResource True}" Value="Stop"/>
+        </local:KeyValueConverter>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Margin="10,0,0,30">
+            <TextBlock TextWrapping="Wrap" 
+                       Text="GPS info" 
+                       Style="{StaticResource TitleTextBlockStyle}">
+            </TextBlock>
+            <TextBlock TextWrapping="NoWrap" 
+                       TextTrimming="CharacterEllipsis" 
+                       Text="Coordinates" 
+                       Style="{StaticResource HeaderTextBlockStyle}">
+            </TextBlock>
+        </StackPanel>
+        <maps:MapControl x:Name="MapPreview" 
+                         Grid.Row="1" 
+                         MapServiceToken="Credentials=&quot;AiFTXnMoalZ-eN9AjO34J_3ZIv0r1rFsnEKOn8TUBD6QvCyoVm7FVGkdNZzM7bVu&quot;">
+        </maps:MapControl>
+        <StackPanel Grid.Row="2"
+                    Margin="20,20,20,20">
+            <TextBlock Style="{StaticResource MyTextStyle}" Text="{Binding StatusText}" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource MyTextStyle}" Text="Latitude:" />
+                <TextBlock Style="{StaticResource MyTextStyle}" Text="{Binding Latitude}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource MyTextStyle}" Text="Longitude:" />
+                <TextBlock Style="{StaticResource MyTextStyle}" Text="{Binding Longitude}" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="3" HorizontalAlignment="Center">
+            <Button Content="{Binding IsTracking, Converter={StaticResource StartStopConverter}}" Command="{Binding Path=ClickCommand}" />
+        </StackPanel>
+    </Grid>
+</Page>
